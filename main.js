@@ -1,7 +1,7 @@
-let planta;
+let tree;
 
 function preload(){
-  planta=loadImage("assets/tree.png");
+  tree = loadImage("assets/tree.png");
 }
 
 function setup() {
@@ -12,7 +12,7 @@ function setup() {
 }
 
 function drawSide1(){
-  let c;
+  var c;
   c = color(0,150,0);
   fill(c);
   noStroke();
@@ -20,7 +20,7 @@ function drawSide1(){
 }
 
 function drawSide2(){
-  let c;
+  var c;
   c = color(0,150,0);
   fill(c);
   noStroke();
@@ -31,10 +31,10 @@ function drawBG(){
   background(color(0,150,255));
   drawSide1();
   drawSide2();
-  image(planta,50,50);
 }
 
 function draw() {
   drawBG();
+  image(tree,0,0);
   // put drawing code here
 }
