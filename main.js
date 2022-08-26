@@ -1,16 +1,30 @@
 let tree;
 let onda;
 let y_wave = 0;
+let spritesheet;
+let spritedata;
+let animation = [];
 
 function preload(){
   tree = loadImage("assets/tree.png");
   waves = loadImage("assets/waves2.png");
+  farmer = loadImage("assets/fazendeiro2.png");
+  wolf = loadImage("assets/lobo2.png");
+  cabbage = loadImage("assets/couve.png");
+  spritesheet = loadImage("assets/goat.png");
+  spritedata = loadJSON("assets/goatdata.json");
 }
 
 function setup() {
   var width = 600;
   var height = 400;
   createCanvas(width,height);
+  let frames = spritedata.frames;
+  for (let i = 0; i<frames.length; i++){
+    let pos =frames[i].position;
+    let img = spritesheet.get(pos.x,pos.y, pos.w, pos.h)
+    animation.push(img)
+  }
   // put setup code here
 }
 
@@ -74,6 +88,10 @@ function drawBG(){
   image(tree,5+translate_x,310);
   image(tree,2+translate_x,330);
   image(tree,3+translate_x,360);
+  image(farmer, 110,150);
+  image(wolf, 100,210, 40,40);
+  image(cabbage, 100,260, 40,40);
+  image(animation[frameCount%animation.length],50,50)
   
   //Draw ondas:
   DrawWaves();
