@@ -122,7 +122,7 @@ function draw() {
     image(farmer, 110+farmer_translate[0],150+farmer_translate[1]);
     image(wolf, 100,210, 40,40);
     image(cabbage, 100,260, 40,40);
-    image(animation[frameCount%animation.length],50+goat_translate[0],50+goat_translate[1]);
+    image(animation[Math.floor(frameCount/2)%animation.length],50+goat_translate[0],50+goat_translate[1]);
     DrawState(state);
     var speed = 0.6;
     if (goat_translate[0]<70){goat_translate[0] += speed;}
@@ -147,7 +147,7 @@ function draw() {
     image(farmer, 110+farmer_translate[0],150+farmer_translate[1]);
     image(wolf, 100,210, 40,40);
     image(cabbage, 100,260, 40,40);
-    image(animation[frameCount%animation.length],50+goat_translate[0],50+goat_translate[1]);
+    image(animation[0],50+goat_translate[0],50+goat_translate[1]);
     var speed_ship = 1.5;
     var speed = 1.0;
     if (goat_translate[0]<360){goat_translate[0] += speed_ship;}
@@ -161,13 +161,16 @@ function draw() {
       state=4;
     }
     if (goat_translate[1]>0.0 && state==4){goat_translate[1]-=speed;}
-    // if (state==4){
-    //   if (goat_translate[1]>0.0){goat_translate[1]-=0.2;}
-    // }
-    // if (goat_translate[1]<=0.0){state=5;}
+    if (state==4){
+      if (goat_translate[1]>0.0){goat_translate[1]-=0.2;}
+      image(animation[Math.floor(frameCount/2)%animation.length],50+goat_translate[0],50+goat_translate[1]);   
+      
+    }
+    if (goat_translate[1]<=0.0){state=5;}
     // if (in_ship[0]=="farmer" && state==5)
     // {state=6;}
     image(ship, 130+ship_translate[0],150);
+    
     DrawState(state);
   }
   
