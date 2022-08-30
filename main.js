@@ -5,6 +5,9 @@ let spritesheet;
 let spritedata;
 let animation = [];
 let font;
+let spritesheet_wolf;
+let spritedata_wolf;
+let animation_wolf = []
 
 let cabbage_translate = [0.0,0.0];
 let farmer_translate = [0.0,0.0];
@@ -20,10 +23,11 @@ function preload(){
   tree = loadImage("assets/tree.png");
   waves = loadImage("assets/waves2.png");
   farmer = loadImage("assets/fazendeiro2.png");
-  wolf = loadImage("assets/lobo2.png");
+  wolf = loadImage("assets/wolfsheet2.png");
   cabbage = loadImage("assets/couve.png");
   spritesheet = loadImage("assets/goat.png");
   spritedata = loadJSON("assets/goatdata.json");
+  spritedata_wolf = loadJSON("assets/wolf.json");
   ship = loadImage("assets/ship.png");
   font = loadFont("fonts/OstrichSans-Medium.otf")
 }
@@ -38,6 +42,13 @@ function setup() {
     let pos =frames[i].position;
     let img = spritesheet.get(pos.x,pos.y, pos.w, pos.h)
     animation.push(img)
+  }
+
+  let frames_wolf = spritedata_wolf.frames;
+  for (let i = 0; i<frames.length; i++){
+    let pos =frames_wolf[i].position;
+    let img = wolf.get(pos.x,pos.y, pos.w, pos.h)
+     animation_wolf.push(img)
   }
   // put setup code here
 }
@@ -120,9 +131,9 @@ function draw() {
   drawBG();
   if (state<3){
     image(farmer, 110+farmer_translate[0],150+farmer_translate[1]);
-    image(wolf, 100,210, 40,40);
+    image(animation_wolf[0], 70 + wolf_translate[0],190 + wolf_translate[1]);
     image(cabbage, 100,260, 40,40);
-    image(animation[Math.floor(frameCount/2)%animation.length],50+goat_translate[0],50+goat_translate[1]);
+    image(animation[Math.floor(frameCount/5)%animation.length],50+goat_translate[0],50+goat_translate[1]);
     DrawState(state);
     var speed = 0.6;
     if (goat_translate[0]<70){goat_translate[0] += speed;}
@@ -134,7 +145,7 @@ function draw() {
     {in_ship.push("farmer");state=1;}
     if (goat_translate[0]>=70 && goat_translate[1]>=80 && state<2)
     {in_ship.push("goat");state=2;}
-    console.log("in_ship:", in_ship);
+    // console.log("in_ship:", in_ship);
     if ((in_ship[0]=="farmer" && in_ship[1]=="goat") || (in_ship[0]=="goat" && in_ship[1]=="farmer"))
     {
       state=3;
@@ -145,15 +156,15 @@ function draw() {
   }
   else if(state>=3){
     image(farmer, 110+farmer_translate[0],150+farmer_translate[1]);
-    image(wolf, 100,210, 40,40);
+    image(animation_wolf[0], 70+wolf_translate[0],190+wolf_translate[1]);
     image(cabbage, 100,260, 40,40);
     image(animation[0],50+goat_translate[0],50+goat_translate[1]);
     var speed_ship = 1.5;
     var speed = 1.0;
-    if (goat_translate[0]<360){goat_translate[0] += speed_ship;}
-    if (farmer_translate[0]<320){farmer_translate[0] += speed_ship;}
-    if (ship_translate[0]<290){ship_translate[0] += speed_ship;}
-    console.log("x:",goat_translate[0],"y:",goat_translate[1]);
+    if (goat_translate[0]<360 && state == 3){goat_translate[0] += speed_ship;}
+    if (farmer_translate[0]<320 && state == 3){farmer_translate[0] += speed_ship;}
+    if (ship_translate[0]<290 && state == 3){ship_translate[0] += speed_ship;}
+    // console.log("x:",goat_translate[0],"y:",goat_translate[1]);
 
     if (ship_translate[0]>=290 && state==3)
     {
@@ -163,15 +174,35 @@ function draw() {
     if (goat_translate[1]>0.0 && state==4){goat_translate[1]-=speed;}
     if (state==4){
       if (goat_translate[1]>0.0){goat_translate[1]-=0.2;}
-      image(animation[Math.floor(frameCount/2)%animation.length],50+goat_translate[0],50+goat_translate[1]);   
+      image(animation[Math.floor(frameCount/5)%animation.length],50+goat_translate[0],50+goat_translate[1]);   
       
     }
     if (goat_translate[1]<=0.0){state=5;}
-    // if (in_ship[0]=="farmer" && state==5)
-    // {state=6;}
+    if (in_ship[0]=="farmer" && state==5){
+      
+      if (ship_translate[0] > 0 ) {ship_translate[0] -= speed_ship; console.log("here")}
+      if (farmer_translate[0] > 30 ){farmer_translate[0] -= speed_ship;}
+    }
+    if(farmer_translate[0] == 30 && state == 5){state = 6;}
+
+    if(farmer_translate[0]<30 && state == 6){farmer_translate[0] += speed;}
+    if(wolf_translate[0]<80 && state == 6){
+
+      image(animation_wolf[Math.floor(frameCount/5)%animation_wolf.length],70+wolf_translate[0],190+wolf_translate[1]);  
+      wolf_translate[0] += speed;
+    }
+    if(wolf_translate[0] == 80 && farmer_translate[0] == 30 && state == 6){
+      state = 7;
+      in_ship[1] = "wolf";
+      
+      if(ship_translate[0] < 320){ship_translate[0] += speed_ship;}
+    }
+
+
     image(ship, 130+ship_translate[0],150);
     
     DrawState(state);
+    
   }
   
   // put drawing code here
