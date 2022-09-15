@@ -173,14 +173,14 @@ function draw() {
     }
     if (goat_translate[1]>0.0 && state==4){goat_translate[1]-=speed;}
     if (state==4){
-      if (goat_translate[1]>0.0){goat_translate[1]-=0.2;}
+      if (goat_translate[1]>0.0){goat_translate[1]-=speed;}
       image(animation[Math.floor(frameCount/5)%animation.length],50+goat_translate[0],50+goat_translate[1]);   
-      
+      if(goat_translate[1]<=0.0){in_ship.pop();}
     }
-    if (goat_translate[1]<=0.0){state=5;}
+    if (goat_translate[1]<=0.0 && in_ship[1]==null){state=5;}
     if (in_ship[0]=="farmer" && state==5){
       
-      if (ship_translate[0] > 0 ) {ship_translate[0] -= speed_ship; console.log("here")}
+      if (ship_translate[0] > 0 ) {ship_translate[0] -= speed_ship;}
       if (farmer_translate[0] > 30 ){farmer_translate[0] -= speed_ship;}
     }
     if(farmer_translate[0] == 30 && state == 5){state = 6;}
@@ -190,20 +190,28 @@ function draw() {
 
       image(animation_wolf[Math.floor(frameCount/5)%animation_wolf.length],70+wolf_translate[0],190+wolf_translate[1]);  
       wolf_translate[0] += speed;
-    }
-    if(wolf_translate[0] == 80 && farmer_translate[0] == 30 && state == 6){
-      state = 7;
+      // state = 6;
+    }else if (state==6){state=7;}
+    if(wolf_translate[0] <= 360 && farmer_translate[0] <= 320 && state == 7){
+      // state = 7;
       in_ship[1] = "wolf";
       
-      if(ship_translate[0] < 320){ship_translate[0] += speed_ship;}
+      if(ship_translate[0] < 320){
+        console.log("state 7, ship=", ship_translate);
+        ship_translate[0] += speed_ship;
+      }
+      if (farmer_translate[0] < 320){farmer_translate[0]+=speed_ship;}
+      if (wolf_translate[0] < 361){wolf_translate[0]+=speed_ship;}
     }
-
-
-    image(ship, 130+ship_translate[0],150);
+    else if (state==7){state=8;}
+    // console.log("ship:", ship_translate[0]);
+    // console.log("farmer:", farmer_translate[0]);
+    // console.log("wolf:", wolf_translate[0]);
+    // console.log("goat:", goat_translate);
     
     DrawState(state);
     
   }
-  
+  image(ship, 130+ship_translate[0],150);
   // put drawing code here
 }
