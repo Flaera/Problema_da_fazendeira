@@ -15,9 +15,9 @@ let wolf_translate = [0.0,0.0];
 let goat_translate = [0.0,0.0];
 let ship_translate = [0.0,0.0];
 let state = 0;
-let margem1 = ["farmer","couve","goat","wolf"];
+// let margem1 = ["farmer","couve","goat","wolf"];
 let in_ship = [];
-let margem2 = [];
+// let margem2 = [];
 
 function preload(){
   tree = loadImage("assets/tree.png");
@@ -127,15 +127,14 @@ function DrawState(menseger){
 }
 
 
-function draw() {
-  drawBG();
+function drawSoluction1(){
   if (state<3){
     image(farmer, 110+farmer_translate[0],150+farmer_translate[1]);
     image(animation_wolf[0], 70 + wolf_translate[0],190 + wolf_translate[1]);
-    image(cabbage, 100,260, 40,40);
+    image(cabbage, 100+cabbage_translate[0], 260+cabbage_translate[1], 40,40);
     image(animation[Math.floor(frameCount/5)%animation.length],50+goat_translate[0],50+goat_translate[1]);
     DrawState(state);
-    var speed = 0.6;
+    var speed = 1.0;
     if (goat_translate[0]<70){goat_translate[0] += speed;}
     if (farmer_translate[0]<30){farmer_translate[0] += speed;}
     if (farmer_translate[1]<20){farmer_translate[1]+=speed;}
@@ -157,7 +156,7 @@ function draw() {
   else if(state>=3){
     image(farmer, 110+farmer_translate[0],150+farmer_translate[1]);
     image(animation_wolf[0], 70+wolf_translate[0],190+wolf_translate[1]);
-    image(cabbage, 100,260, 40,40);
+    image(cabbage, 100+cabbage_translate[0], 260+cabbage_translate[1], 40, 40);
     image(animation[0],50+goat_translate[0],50+goat_translate[1]);
     var speed_ship = 1.5;
     var speed = 1.0;
@@ -175,11 +174,11 @@ function draw() {
     if (state==4){
       if (goat_translate[1]>0.0){goat_translate[1]-=speed;}
       image(animation[Math.floor(frameCount/5)%animation.length],50+goat_translate[0],50+goat_translate[1]);   
-      if(goat_translate[1]<=0.0){in_ship.pop();}
+      if(goat_translate[1]<=0.0){in_ship.pop();state=5}
     }
-    if (goat_translate[1]<=0.0 && in_ship[1]==null){state=5;}
+    // else if (state==4){state=5;}
+    // else if (goat_translate[1]<=0.0 && in_ship[1]==null && in_ship[0]!=null){state=5;}
     if (in_ship[0]=="farmer" && state==5){
-      
       if (ship_translate[0] > 0 ) {ship_translate[0] -= speed_ship;}
       if (farmer_translate[0] > 30 ){farmer_translate[0] -= speed_ship;}
     }
@@ -197,21 +196,121 @@ function draw() {
       in_ship[1] = "wolf";
       
       if(ship_translate[0] < 320){
-        console.log("state 7, ship=", ship_translate);
+        // console.log("state 7, ship=", ship_translate);
         ship_translate[0] += speed_ship;
       }
       if (farmer_translate[0] < 320){farmer_translate[0]+=speed_ship;}
       if (wolf_translate[0] < 361){wolf_translate[0]+=speed_ship;}
     }
     else if (state==7){state=8;}
+    if (state==8 && wolf_translate[0]<380){
+      image(animation_wolf[Math.floor(frameCount/5)%animation_wolf.length],70+wolf_translate[0],190+wolf_translate[1]);  
+      wolf_translate[0] += speed;
+      if (wolf_translate[0]>=380){
+        state=9;
+        in_ship.pop();
+      }
+    }
+    if (state==9){
+      if (goat_translate[1]<80.0){goat_translate[1]+=speed;}
+      else{in_ship[1] = "goat";state=10;}
+      image(animation[Math.floor(frameCount/5)%animation.length],50+goat_translate[0],50+goat_translate[1]);
+    }
+    if (state==10){
+      if (farmer_translate[0]>30.0){farmer_translate[0]-=speed_ship;}
+      if (ship_translate[0]>0.0){ship_translate[0]-=speed_ship;}
+      if (goat_translate[0]>70.0){goat_translate[0]-=speed_ship;}
+      else if (in_ship[1]=="goat"){in_ship.pop();state=11;}
+    }
+    if (state==11){
+      if (goat_translate[0]>0.0){goat_translate[0]-=speed;}
+      if (goat_translate[1]>0.0){goat_translate[1]-=speed;}
+      else if (in_ship[0]=="farmer"){in_ship.pop();state=12;}
+      image(animation[Math.floor(frameCount/5)%animation.length],50+goat_translate[0],50+goat_translate[1]);
+    }
+    if (state==12){      
+      if (farmer_translate[0]>10.0){farmer_translate[0]-=speed;}
+      if (farmer_translate[1]<100.0){farmer_translate[1]+=speed;}
+      else{state=13;}
+    }
+    if (state==13){
+      if (cabbage_translate[0]<30){cabbage_translate[0]+=speed;}
+      if (cabbage_translate[1]<20.0){cabbage_translate[1]-=speed;}
+      if (farmer_translate[1]>20.0){farmer_translate[1]-=speed;}
+      else {state=14;in_ship.push("farmer");in_ship.push("cabbage");}
+      if (farmer_translate[0]<30){farmer_translate[0]+=speed;}
+    }
+    if (state==14){
+      if (cabbage_translate[0]<320){cabbage_translate[0] += speed_ship;}
+      if (farmer_translate[0]<320){farmer_translate[0] += speed_ship;}
+      else{state=15;in_ship[0]=null;in_ship[1]=null;}
+      if (ship_translate[0]<290){ship_translate[0] += speed_ship;}
+    }
+    if (state==15){
+      var x = 360.0;
+      if (cabbage_translate[0]<x){cabbage_translate[0]+=speed;}
+      if (cabbage_translate[1]<0.0){cabbage_translate[1]+=speed;}
+      if (farmer_translate[1]<100.0){farmer_translate[1]+=speed;}
+      else {state=16;}
+      if (farmer_translate[0]<x){farmer_translate[0]+=speed;}
+    }
+    if (state==16){
+      if (farmer_translate[0]>320){farmer_translate[0]-=speed;}
+      if (farmer_translate[1]>20.0){farmer_translate[1]-=speed;}
+      else{state=17;in_ship[0]="farmer";}
+    }
+    if (state==17){
+      if (farmer_translate[0]>30.0){farmer_translate[0]-=speed_ship;}
+      if (ship_translate[0]>0.0){ship_translate[0]-=speed_ship;}
+      else {state=18;}
+    }
+    if (state==18){
+      if (goat_translate[0]<70){goat_translate[0] += speed;}
+      if (goat_translate[1]<80){goat_translate[1]+=speed;}
+      else{state=19;in_ship[1]="goat";}
+      image(animation[Math.floor(frameCount/5)%animation.length],50+goat_translate[0],50+goat_translate[1]);
+    }
+    if (state==19){
+      if (farmer_translate[0]<320){farmer_translate[0] += speed_ship;}
+      if (ship_translate[0]<290){ship_translate[0] += speed_ship;}
+      if (goat_translate[0]<360){goat_translate[0] += speed_ship;}
+      else{state=20;in_ship[1]=null;}
+    }
+    if (state==20){
+      if (goat_translate[1]>0.0){goat_translate[1]-=speed;}
+    }
     // console.log("ship:", ship_translate[0]);
-    // console.log("farmer:", farmer_translate[0]);
-    // console.log("wolf:", wolf_translate[0]);
-    // console.log("goat:", goat_translate);
-    
-    DrawState(state);
-    
+    // console.log("farmer:", farmer_translate);
+    // console.log("cabbage:", cabbage_translate);
+    // console.log("wolf:", wolf_translate);
+    // console.log("goat:", goat_translate);    
   }
   image(ship, 130+ship_translate[0],150);
   // put drawing code here
+}
+
+
+function drawTextToUser(){
+  fill('#000000');
+  textFont(font);
+  textSize(36);
+  text('DIGITE 1 PARA A SOLUÇÃO 1 OU 2 PARA SOLUÇÃO 2.', 50, 50);
+}
+
+
+function draw() {
+  drawBG();
+  drawTextToUser();
+  var soluction = 1;
+  if (soluction==1 || soluction=='1' || soluction=="1\n"){
+    drawSoluction1();
+  }
+  else{
+    fill('#000000');
+    textFont(font);
+    textSize(36);
+    text('OPÇÃO INVÁLIDA.', 300, 50);
+  }
+  
+  DrawState(state); //Only debugger.
 }
