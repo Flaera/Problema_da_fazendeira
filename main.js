@@ -19,6 +19,12 @@ let state = 0;
 let in_ship = [];
 // let margem2 = [];
 
+let s1 = 0;
+let s2 = 0;
+let s3 = 0
+let s4 = 0
+let s5 = 0
+
 function preload(){
   tree = loadImage("assets/tree.png");
   waves = loadImage("assets/waves2.png");
@@ -33,7 +39,7 @@ function preload(){
 }
 
 function setup() {
-
+  
   var width = 600;
   var height = 400;
   createCanvas(width,height);
@@ -128,7 +134,28 @@ function DrawState(menseger){
 
 
 function drawSoluction1(){
+  
   if (state<3){
+    
+    strokeWeight(5);
+    stroke(0);
+    noFill();
+    circle(300,90,160);
+    fill(255,0,0);
+    strokeWeight(0);
+    circle(300,90,s1)
+    s1 += 2;
+
+    fill('#ffffff');
+    textFont(font);
+    textSize(33);
+    text("M1_FLCaCo-M2_",227,100)
+
+    // drawCircles(200,200,20);
+  
+   
+    
+    
     image(farmer, 110+farmer_translate[0],150+farmer_translate[1]);
     image(animation_wolf[0], 70 + wolf_translate[0],190 + wolf_translate[1]);
     image(cabbage, 100+cabbage_translate[0], 260+cabbage_translate[1], 40,40);
@@ -154,6 +181,29 @@ function drawSoluction1(){
     image(ship, 130+ship_translate[0],150);
   }
   else if(state>=3){
+
+
+
+    if(state < 4){
+
+    strokeWeight(5);
+    stroke(0);
+    noFill();
+    circle(300,90,160);
+    fill(255,0,0);
+    strokeWeight(0);
+    circle(300,90,s2)
+    fill('#ffffff');
+    textFont(font);
+    textSize(33);
+    text("M1_LCo-M2_FCa",227,100)
+    s2 += 0.8;
+    }
+    
+s2
+    
+
+
     image(farmer, 110+farmer_translate[0],150+farmer_translate[1]);
     image(animation_wolf[0], 70+wolf_translate[0],190+wolf_translate[1]);
     image(cabbage, 100+cabbage_translate[0], 260+cabbage_translate[1], 40, 40);
@@ -169,7 +219,24 @@ function drawSoluction1(){
     {
       // in_ship.pop("goat");
       state=4;
+      s2 = 0;
     }
+
+    if(state == 5){
+
+      strokeWeight(5);
+      stroke(0);
+      noFill();
+      circle(300,90,160);
+      fill(255,0,0);
+      strokeWeight(0);
+      circle(300,90,s2)
+      fill('#ffffff');
+      textFont(font);
+      textSize(33);
+      text("M1_FLCo-M2_Ca",227,100)
+      s2 += 0.8;
+      }
     if (goat_translate[1]>0.0 && state==4){goat_translate[1]-=speed;}
     if (state==4){
       if (goat_translate[1]>0.0){goat_translate[1]-=speed;}
@@ -190,7 +257,23 @@ function drawSoluction1(){
       image(animation_wolf[Math.floor(frameCount/5)%animation_wolf.length],70+wolf_translate[0],190+wolf_translate[1]);  
       wolf_translate[0] += speed;
       // state = 6;
-    }else if (state==6){state=7;}
+    }else if (state==6){state=7; s2 = 0;}
+
+    if(state == 7){
+
+      strokeWeight(5);
+      stroke(0);
+      noFill();
+      circle(300,90,160);
+      fill(255,0,0);
+      strokeWeight(0);
+      circle(300,90,s2)
+      fill('#ffffff');
+      textFont(font);
+      textSize(33);
+      text("M1_Co-M2_FLCa",227,100)
+      s2 += 0.8;
+      }
     if(wolf_translate[0] <= 360 && farmer_translate[0] <= 320 && state == 7){
       // state = 7;
       in_ship[1] = "wolf";
@@ -212,11 +295,26 @@ function drawSoluction1(){
       }
     }
     if (state==9){
+      s2 = 0;
       if (goat_translate[1]<80.0){goat_translate[1]+=speed;}
       else{in_ship[1] = "goat";state=10;}
       image(animation[Math.floor(frameCount/5)%animation.length],50+goat_translate[0],50+goat_translate[1]);
     }
     if (state==10){
+
+      strokeWeight(5);
+      stroke(0);
+      noFill();
+      circle(300,90,160);
+      fill(255,0,0);
+      strokeWeight(0);
+      circle(300,90,s2)
+      fill('#ffffff');
+      textFont(font);
+      textSize(33);
+      text("M1_FCaCo-M2_L",227,100)
+      s2 += 0.8;
+        
       if (farmer_translate[0]>30.0){farmer_translate[0]-=speed_ship;}
       if (ship_translate[0]>0.0){ship_translate[0]-=speed_ship;}
       if (goat_translate[0]>70.0){goat_translate[0]-=speed_ship;}
@@ -233,7 +331,7 @@ function drawSoluction1(){
       if (farmer_translate[1]<100.0){farmer_translate[1]+=speed;}
       else{state=13;}
     }
-    if (state==13){
+    if (state==13){s2 = 0;
       if (cabbage_translate[0]<30){cabbage_translate[0]+=speed;}
       if (cabbage_translate[1]<20.0){cabbage_translate[1]-=speed;}
       if (farmer_translate[1]>20.0){farmer_translate[1]-=speed;}
@@ -241,6 +339,19 @@ function drawSoluction1(){
       if (farmer_translate[0]<30){farmer_translate[0]+=speed;}
     }
     if (state==14){
+
+      strokeWeight(5);
+      stroke(0);
+      noFill();
+      circle(300,90,160);
+      fill(255,0,0);
+      strokeWeight(0);
+      circle(300,90,s2)
+      fill('#ffffff');
+      textFont(font);
+      textSize(33);
+      text("M1_Ca-M2_FCoL",227,100)
+      s2 += 0.8;
       if (cabbage_translate[0]<320){cabbage_translate[0] += speed_ship;}
       if (farmer_translate[0]<320){farmer_translate[0] += speed_ship;}
       else{state=15;in_ship[0]=null;in_ship[1]=null;}
@@ -254,23 +365,49 @@ function drawSoluction1(){
       else {state=16;}
       if (farmer_translate[0]<x){farmer_translate[0]+=speed;}
     }
-    if (state==16){
+    if (state==16){s2 = 0;
       if (farmer_translate[0]>320){farmer_translate[0]-=speed;}
       if (farmer_translate[1]>20.0){farmer_translate[1]-=speed;}
       else{state=17;in_ship[0]="farmer";}
     }
     if (state==17){
+
+      strokeWeight(5);
+      stroke(0);
+      noFill();
+      circle(300,90,160);
+      fill(255,0,0);
+      strokeWeight(0);
+      circle(300,90,s2)
+      fill('#ffffff');
+      textFont(font);
+      textSize(33);
+      text("M1_FCa-M2_CoL",227,100)
+      s2 += 0.8;
       if (farmer_translate[0]>30.0){farmer_translate[0]-=speed_ship;}
       if (ship_translate[0]>0.0){ship_translate[0]-=speed_ship;}
       else {state=18;}
     }
-    if (state==18){
+    if (state==18){s2 =0;
       if (goat_translate[0]<70){goat_translate[0] += speed;}
       if (goat_translate[1]<80){goat_translate[1]+=speed;}
       else{state=19;in_ship[1]="goat";}
       image(animation[Math.floor(frameCount/5)%animation.length],50+goat_translate[0],50+goat_translate[1]);
     }
     if (state==19){
+
+      strokeWeight(5);
+      stroke(0);
+      noFill();
+      circle(300,90,160);
+      fill(255,0,0);
+      strokeWeight(0);
+      circle(300,90,s2)
+      fill('#ffffff');
+      textFont(font);
+      textSize(33);
+      text("M1_-M2_FCaCoL",227,100)
+      s2 += 0.8;
       if (farmer_translate[0]<320){farmer_translate[0] += speed_ship;}
       if (ship_translate[0]<290){ship_translate[0] += speed_ship;}
       if (goat_translate[0]<360){goat_translate[0] += speed_ship;}
