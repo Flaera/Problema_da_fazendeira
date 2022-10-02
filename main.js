@@ -154,7 +154,6 @@ function drawSoluction1(){
     textSize(33);
     text("M1_FLCaCo-M2_",227,100);
 
-    // drawCircles(200,200,20);
   
    
     
@@ -417,7 +416,9 @@ s2;
       else{state=20;in_ship[1]=null;}
     }
     if (state==20){
+      image(animation[Math.floor(frameCount/5)%animation.length],50+goat_translate[0],50+goat_translate[1]);
       if (goat_translate[1]>0.0){goat_translate[1]-=speed;}
+      else{state=21;}
     }
     // console.log("ship:", ship_translate[0]);
     // console.log("farmer:", farmer_translate);
@@ -448,7 +449,7 @@ function drawSoluction2(){
     textSize(33);
     text("M1_FLCaCo-M2_",227,100);
 
-    // drawCircles(200,200,20);
+    // drawCircleStatess(200,200,20);
   
    
     
@@ -483,18 +484,7 @@ function drawSoluction2(){
 
     if(state < 4){
 
-    strokeWeight(5);
-    stroke(0);
-    noFill();
-    circle(300,90,160);
-    fill(255,0,0);
-    strokeWeight(0);
-    circle(300,90,s2)
-    fill('#ffffff');
-    textFont(font);
-    textSize(33);
-    text("M1_LCo-M2_FCa",227,100);
-    s2 += 0.8;
+      drawCircleStates("M1_LCo-M2_FCa")
     }
     
 s2;
@@ -521,18 +511,7 @@ s2;
 
     if(state == 5){
 
-      strokeWeight(5);
-      stroke(0);
-      noFill();
-      circle(300,90,160);
-      fill(255,0,0);
-      strokeWeight(0);
-      circle(300,90,s2)
-      fill('#ffffff');
-      textFont(font);
-      textSize(33);
-      text("M1_FLCo-M2_Ca",227,100);
-      s2 += 0.8;
+      drawCircleStates("M1_FLCo-M2_Ca");
       }
     if (goat_translate[1]>0.0 && state==4){goat_translate[1]-=speed;}
     if (state==4){
@@ -548,143 +527,104 @@ s2;
     }
     if(farmer_translate[0] == 30 && state == 5){state = 6;}
 
-    if(farmer_translate[0]<30 && state == 6){farmer_translate[0] += speed;}
-    if(cabbage_translate[0]<30 && state == 6){
+    // if(farmer_translate[0]<30 && state == 6){farmer_translate[0] += speed;}
+    if(farmer_translate[1]<100.0 && state == 6){
 
-      // COLOCAR AQUI
-      if (cabbage_translate[0]<30){cabbage_translate[0]+=speed;}
-      if (cabbage_translate[1]<20.0){cabbage_translate[1]-=speed;}
-      if (farmer_translate[1]>20.0){farmer_translate[1]-=speed;}
-      else {state=14;in_ship.push("farmer");in_ship.push("cabbage");}
-      if (farmer_translate[0]<30){farmer_translate[0]+=speed;}
+      // ALTERAR AQUI
+      if (farmer_translate[0]>10.0){farmer_translate[0]-=speed;}
+      if (farmer_translate[1]<100.0){farmer_translate[1]+=speed;}
+      // else{state=7;s2=0;}
       
     }else if (state==6){state=7; s2 = 0;}
 
+    // if(state == 7){
+
+    //   drawCircleStates("M1_L-M2_FCoCa");
+    //   }
     if(state == 7){
-
-      strokeWeight(5);
-      stroke(0);
-      noFill();
-      circle(300,90,160);
-      fill(255,0,0);
-      strokeWeight(0);
-      circle(300,90,s2)
-      fill('#ffffff');
-      textFont(font);
-      textSize(33);
-      text("M1_Co-M2_FLCa",227,100);
-      s2 += 0.8;
-      }
-    if(wolf_translate[0] <= 360 && farmer_translate[0] <= 320 && state == 7){
-      // state = 7;
-      in_ship[1] = "wolf";
-      
-      if(ship_translate[0] < 320){
-        // console.log("state 7, ship=", ship_translate);
-        ship_translate[0] += speed_ship;
-      }
-      if (farmer_translate[0] < 320){farmer_translate[0]+=speed_ship;}
-      if (wolf_translate[0] < 361){wolf_translate[0]+=speed_ship;}
-    }
-    else if (state==7){state=8;}
-    if (state==8 && wolf_translate[0]<380){
-      image(animation_wolf[Math.floor(frameCount/5)%animation_wolf.length],70+wolf_translate[0],190+wolf_translate[1]);  
-      wolf_translate[0] += speed;
-      if (wolf_translate[0]>=380){
-        state=9;
-        in_ship.pop();
-      }
-    }
-    if (state==9){
       s2 = 0;
-      if (goat_translate[1]<80.0){goat_translate[1]+=speed;}
-      else{in_ship[1] = "goat";state=10;}
-      image(animation[Math.floor(frameCount/5)%animation.length],50+goat_translate[0],50+goat_translate[1]);
-    }
-    if (state==10){
-
-      strokeWeight(5);
-      stroke(0);
-      noFill();
-      circle(300,90,160);
-      fill(255,0,0);
-      strokeWeight(0);
-      circle(300,90,s2)
-      fill('#ffffff');
-      textFont(font);
-      textSize(33);
-      text("M1_FCaCo-M2_L",227,100);
-      s2 += 0.8;
-        
-      if (farmer_translate[0]>30.0){farmer_translate[0]-=speed_ship;}
-      if (ship_translate[0]>0.0){ship_translate[0]-=speed_ship;}
-      if (goat_translate[0]>70.0){goat_translate[0]-=speed_ship;}
-      else if (in_ship[1]=="goat"){in_ship.pop();state=11;}
-    }
-    if (state==11){
-      if (goat_translate[0]>0.0){goat_translate[0]-=speed;}
-      if (goat_translate[1]>0.0){goat_translate[1]-=speed;}
-      else if (in_ship[0]=="farmer"){in_ship.pop();state=12;}
-      image(animation[Math.floor(frameCount/5)%animation.length],50+goat_translate[0],50+goat_translate[1]);
-    }
-    if (state==12){      
-      if (farmer_translate[0]>10.0){farmer_translate[0]-=speed;}
-      if (farmer_translate[1]<100.0){farmer_translate[1]+=speed;}
-      else{state=13;}
-    }
-    if (state==13){s2 = 0;
       if (cabbage_translate[0]<30){cabbage_translate[0]+=speed;}
       if (cabbage_translate[1]<20.0){cabbage_translate[1]-=speed;}
       if (farmer_translate[1]>20.0){farmer_translate[1]-=speed;}
-      else {state=14;in_ship.push("farmer");in_ship.push("cabbage");}
+      else {state=8;in_ship.push("farmer");in_ship.push("cabbage");s2=0.0;}
       if (farmer_translate[0]<30){farmer_translate[0]+=speed;}
     }
-    if (state==14){
-
-      strokeWeight(5);
-      stroke(0);
-      noFill();
-      circle(300,90,160);
-      fill(255,0,0);
-      strokeWeight(0);
-      circle(300,90,s2)
-      fill('#ffffff');
-      textFont(font);
-      textSize(33);
-      text("M1_Ca-M2_FCoL",227,100);
-      s2 += 0.8;
+    // else if (state==7){state=8;}
+    if (state==8){
+      drawCircleStates("M1_L-M2_FCoCa");
+      
       if (cabbage_translate[0]<320){cabbage_translate[0] += speed_ship;}
       if (farmer_translate[0]<320){farmer_translate[0] += speed_ship;}
-      else{state=15;in_ship[0]=null;in_ship[1]=null;}
+      else{state=9;in_ship[0]="farmer";in_ship[1]=null;}
       if (ship_translate[0]<290){ship_translate[0] += speed_ship;}
     }
-    if (state==15){
+    if (state==9){
       var x = 360.0;
       if (cabbage_translate[0]<x){cabbage_translate[0]+=speed;}
       if (cabbage_translate[1]<0.0){cabbage_translate[1]+=speed;}
       if (farmer_translate[1]<100.0){farmer_translate[1]+=speed;}
-      else {state=16;}
+      else {s2=0.0;state=10;}
       if (farmer_translate[0]<x){farmer_translate[0]+=speed;}
+      
+    }
+    if (state==10){
+        
+      // s2 = 0;
+      if (farmer_translate[0]>320.0){farmer_translate[0]-=speed;}
+      if (farmer_translate[1]>30.0){farmer_translate[1]-=speed;}
+      else{in_ship[1] = null;state=11;}
+      // if (farmer_translate[0]>30.0){farmer_translate[0]-=speed_ship;}
+      // if (ship_translate[0]>0.0){ship_translate[0]-=speed_ship;}
+      // if (goat_translate[0]>70.0){goat_translate[0]-=speed_ship;}
+      // else if (in_ship[1]=="goat"){in_ship.pop();state=11;}
+    }
+    if (state==11){
+      // if (goat_translate[0]>0.0){goat_translate[0]-=speed;}
+      // console.log("goat_trans:", goat_translate[1]);
+      if (goat_translate[1]<80.0){goat_translate[1]+=speed;}
+      else if (in_ship[0]=="farmer"){in_ship.push("goat");state=12;}
+      image(animation[Math.floor(frameCount/5)%animation.length],50+goat_translate[0],50+goat_translate[1]);
+    }
+    if (state==12){
+      drawCircleStates("M1_LFCa-M2_Co");
+
+      if (goat_translate[0]>0.0){goat_translate[0]-=speed_ship;}
+      if (ship_translate[0] > 0 ) {ship_translate[0] -= speed_ship;}
+      else{state=13;}
+      if (farmer_translate[0] > 30 ){farmer_translate[0] -= speed_ship;}
+    }
+    if (state==13){
+      image(animation[Math.floor(frameCount/5)%animation.length],50+goat_translate[0],50+goat_translate[1]);
+      if (goat_translate[0]>0.0){goat_translate[0]-=speed;}
+      if (goat_translate[1]>0.0){goat_translate[1]-=speed;}
+      else{state=14;in_ship.pop();s2 = 0.0;}
+    }
+    if (state==14){
+      image(animation_wolf[Math.floor(frameCount/5)%animation_wolf.length],70+wolf_translate[0],190+wolf_translate[1]);
+      if (wolf_translate[0]<80){wolf_translate[0] += speed;}
+      else{state=15;in_ship.push("wolf");}
+    }
+    if (state==15){
+      drawCircleStates("M1_Ca-M2_FLCo");
+
+      if (farmer_translate[0]<320){farmer_translate[0] += speed_ship;}
+      if (ship_translate[0]<290){ship_translate[0] += speed_ship;}
+      // console.log("STATE 15:", wolf_translate[0], farmer_translate[0]);
+      if (wolf_translate[0]<320){wolf_translate[0] += speed_ship;}
+      else{state=16;in_ship.pop();s2=0.0;}
+      // var x = 360.0;
+      // if (cabbage_translate[0]<x){cabbage_translate[0]+=speed;}
+      // if (cabbage_translate[1]<0.0){cabbage_translate[1]+=speed;}
+      // if (farmer_translate[1]<100.0){farmer_translate[1]+=speed;}
+      // else {state=16;}
+      // if (farmer_translate[0]<x){farmer_translate[0]+=speed;}
     }
     if (state==16){s2 = 0;
-      if (farmer_translate[0]>320){farmer_translate[0]-=speed;}
-      if (farmer_translate[1]>20.0){farmer_translate[1]-=speed;}
-      else{state=17;in_ship[0]="farmer";}
+      image(animation_wolf[Math.floor(frameCount/5)%animation_wolf.length],70+wolf_translate[0],190+wolf_translate[1]);
+      if (wolf_translate[0]<400){wolf_translate[0]+=speed;}
+      else{state=17;in_ship[1]=null;}
     }
     if (state==17){
-
-      strokeWeight(5);
-      stroke(0);
-      noFill();
-      circle(300,90,160);
-      fill(255,0,0);
-      strokeWeight(0);
-      circle(300,90,s2)
-      fill('#ffffff');
-      textFont(font);
-      textSize(33);
-      text("M1_FCa-M2_CoL",227,100);
-      s2 += 0.8;
       if (farmer_translate[0]>30.0){farmer_translate[0]-=speed_ship;}
       if (ship_translate[0]>0.0){ship_translate[0]-=speed_ship;}
       else {state=18;}
@@ -697,25 +637,17 @@ s2;
     }
     if (state==19){
 
-      strokeWeight(5);
-      stroke(0);
-      noFill();
-      circle(300,90,160);
-      fill(255,0,0);
-      strokeWeight(0);
-      circle(300,90,s2)
-      fill('#ffffff');
-      textFont(font);
-      textSize(33);
-      text("M1_-M2_FCaCoL",227,100);
-      s2 += 0.8;
+      drawCircleStates("M1_-M2_FCaCoL");
+
       if (farmer_translate[0]<320){farmer_translate[0] += speed_ship;}
       if (ship_translate[0]<290){ship_translate[0] += speed_ship;}
       if (goat_translate[0]<360){goat_translate[0] += speed_ship;}
       else{state=20;in_ship[1]=null;}
     }
     if (state==20){
+      image(animation[Math.floor(frameCount/5)%animation.length],50+goat_translate[0],50+goat_translate[1]);
       if (goat_translate[1]>0.0){goat_translate[1]-=speed;}
+      else{state=21;}
     }
     // console.log("ship:", ship_translate[0]);
     // console.log("farmer:", farmer_translate);
@@ -725,6 +657,22 @@ s2;
   }
   image(ship, 130+ship_translate[0],150);
   // put drawing code here
+}
+
+
+function drawCircleStates(msg){
+  strokeWeight(5);
+  stroke(0);
+  noFill();
+  circle(300,90,160);
+  fill(255,0,0);
+  strokeWeight(0);
+  circle(300,90,s2)
+  fill('#ffffff');
+  textFont(font);
+  textSize(33);
+  text(msg,227,100);
+  s2 += 0.8;
 }
 
 
@@ -785,7 +733,7 @@ function draw() {
     }
   }
   // keyPressed();
-  DrawState(state); //Only debugger.
+  // DrawState(state); //Only debugger.
 }
 
 
